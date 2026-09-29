@@ -1,9 +1,3 @@
-import { SUBDIVISIONS } from '../../src/data/subdivisions.ts';
-import {
-  calculateBlendedForecast,
-  evaluateExtremeWeather
-} from '../../src/utils/blendingEngine.ts';
-import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService.ts';
 import type { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather.ts';
 
 export default async function handler(req: any, res: any) {
@@ -18,6 +12,11 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    const [{ SUBDIVISIONS }, { calculateBlendedForecast, evaluateExtremeWeather }, { fetchRealMultiModelForecast }] = await Promise.all([
+      import('../../src/data/subdivisions.ts'),
+      import('../../src/utils/blendingEngine.ts'),
+      import('../../src/utils/openMeteoService.ts')
+    ]);
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || req.query || {});
     const subdivisionId = body.subdivisionId || 'sub-15'; // Default Konkan & Goa
     const season = (body.season as Season) || 'monsoon';
