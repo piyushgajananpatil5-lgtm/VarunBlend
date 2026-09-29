@@ -1,7 +1,7 @@
 import { SUBDIVISIONS } from '../../src/data/subdivisions';
 import { calculateBlendedForecast, evaluateExtremeWeather } from '../../src/utils/blendingEngine';
 import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService';
-import { Season, WeatherRegime } from '../../src/types/weather';
+import type { Season, WeatherRegime } from '../../src/types/weather';
 
 export default async function handler(req: any, res: any) {
   res.setHeader('Content-Type', 'application/json');

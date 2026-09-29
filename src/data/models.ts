@@ -1,4 +1,4 @@
-import { ModelMeta } from '../types/weather';
+import type { ModelMeta } from '../types/weather';
 
 export const FORECAST_MODELS: ModelMeta[] = [
   {

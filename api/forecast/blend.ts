@@ -4,7 +4,7 @@ import {
   evaluateExtremeWeather
 } from '../../src/utils/blendingEngine';
 import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService';
-import { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather';
+import type { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather';
 
 export default async function handler(req: any, res: any) {
   // Set CORS and Vercel Edge caching headers
