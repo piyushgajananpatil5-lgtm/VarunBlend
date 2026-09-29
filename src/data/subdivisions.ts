@@ -1,4 +1,4 @@
-import type { Subdivision } from '../types/weather';
+import type { Subdivision } from '../types/weather.ts';
 
 export const SUBDIVISIONS: Subdivision[] = [
   // Northwest India

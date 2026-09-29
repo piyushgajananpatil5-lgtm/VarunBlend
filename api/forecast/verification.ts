@@ -1,5 +1,5 @@
-import { getVerificationSkillData } from '../../src/utils/blendingEngine';
-import type { ForecastVariable } from '../../src/types/weather';
+import { getVerificationSkillData } from '../../src/utils/blendingEngine.ts';
+import type { ForecastVariable } from '../../src/types/weather.ts';
 
 export default function handler(req: any, res: any) {
   res.setHeader('Content-Type', 'application/json');

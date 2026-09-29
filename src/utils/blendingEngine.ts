@@ -11,9 +11,9 @@ import type {
   AlertLevel,
   ExceedanceProb,
   VerificationMetric
-} from '../types/weather';
-import { FORECAST_MODELS } from '../data/models';
-import type { OpenMeteoMultiModelData } from './openMeteoService';
+} from '../types/weather.ts';
+import { FORECAST_MODELS } from '../data/models.ts';
+import type { OpenMeteoMultiModelData } from './openMeteoService.ts';
 
 /**
  * Base historical RMSE values by model and variable under standard conditions

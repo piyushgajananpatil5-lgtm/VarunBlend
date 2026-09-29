@@ -1,7 +1,7 @@
-import { SUBDIVISIONS } from '../../src/data/subdivisions';
-import { calculateBlendedForecast, evaluateExtremeWeather } from '../../src/utils/blendingEngine';
-import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService';
-import type { Season, WeatherRegime } from '../../src/types/weather';
+import { SUBDIVISIONS } from '../../src/data/subdivisions.ts';
+import { calculateBlendedForecast, evaluateExtremeWeather } from '../../src/utils/blendingEngine.ts';
+import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService.ts';
+import type { Season, WeatherRegime } from '../../src/types/weather.ts';
 
 export default async function handler(req: any, res: any) {
   res.setHeader('Content-Type', 'application/json');

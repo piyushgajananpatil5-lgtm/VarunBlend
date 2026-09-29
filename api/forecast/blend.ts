@@ -1,10 +1,10 @@
-import { SUBDIVISIONS } from '../../src/data/subdivisions';
+import { SUBDIVISIONS } from '../../src/data/subdivisions.ts';
 import {
   calculateBlendedForecast,
   evaluateExtremeWeather
-} from '../../src/utils/blendingEngine';
-import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService';
-import type { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather';
+} from '../../src/utils/blendingEngine.ts';
+import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService.ts';
+import type { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather.ts';
 
 export default async function handler(req: any, res: any) {
   // Set CORS and Vercel Edge caching headers

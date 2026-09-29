@@ -1,4 +1,4 @@
-import type { Subdivision, ModelId, ForecastVariable } from '../types/weather';
+import type { Subdivision, ModelId, ForecastVariable } from '../types/weather.ts';
 
 export interface OpenMeteoMultiModelData {
   subdivisionId: string;
