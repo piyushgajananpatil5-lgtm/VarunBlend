@@ -96,6 +96,8 @@ The Express server runs at `http://localhost:4000`. Set `MONGODB_URI` in a local
 
 ### 5. Local Development
 
+For live Gemini bulletins locally, copy `.env.example` to `.env` and set `GEMINI_API_KEY` using a key from [Google AI Studio](https://aistudio.google.com/). Keep it server-side: do not name it `VITE_GEMINI_API_KEY`. Open-Meteo needs no key; MongoDB is optional and only needed for persistence.
+
 ```bash
 # Install dependencies
 npm install

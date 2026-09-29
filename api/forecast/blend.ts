@@ -1,7 +1,7 @@
 import { SUBDIVISIONS } from '../../src/data/subdivisions';
-import { 
-  calculateBlendedForecast, 
-  evaluateExtremeWeather 
+import {
+  calculateBlendedForecast,
+  evaluateExtremeWeather
 } from '../../src/utils/blendingEngine';
 import { fetchRealMultiModelForecast } from '../../src/utils/openMeteoService';
 import { Season, WeatherRegime, BlendingAlgorithm } from '../../src/types/weather';
