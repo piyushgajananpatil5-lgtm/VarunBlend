@@ -62,6 +62,36 @@ export interface OpenMeteoMultiModelData {
 // In-memory cache for ultra-low latency (1 hour TTL)
 const forecastCache = new Map<string, { data: OpenMeteoMultiModelData; expiresAt: number }>();
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const REQUEST_TIMEOUT_MS = 10_000;
+const REQUEST_RETRY_DELAY_MS = 500;
+
+async function fetchForecastJson(url: string): Promise<any> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) {
+        throw new Error(`Open-Meteo HTTP error: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      lastError = error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    if (attempt < 2) {
+      await new Promise(resolve => setTimeout(resolve, REQUEST_RETRY_DELAY_MS));
+    }
+  }
+
+  throw lastError;
+}
 
 /**
  * Fetch real multi-model forecast data from Open-Meteo API
@@ -84,17 +114,7 @@ export async function fetchRealMultiModelForecast(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(2)}&longitude=${lon.toFixed(2)}&daily=precipitation_sum,temperature_2m_max,temperature_2m_min,wind_speed_10m_max&models=ecmwf_ifs025,gfs_seamless,icon_seamless,gem_seamless&timezone=Asia%2FKolkata&forecast_days=8&past_days=3`;
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4500); // 4.5s timeout for fast responsiveness
-
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    if (!res.ok) {
-      throw new Error(`Open-Meteo HTTP error: ${res.status}`);
-    }
-
-    const json = await res.json();
+    const json = await fetchForecastJson(url);
     const daily = json.daily;
 
     if (!daily || !daily.time) {
@@ -328,7 +348,8 @@ export async function fetchRealMultiModelForecast(
     return result;
 
   } catch (err) {
-    console.warn(`[OpenMeteo] Live fetch failed or timed out for ${subdivision.name}, using resilient climatology fallback:`, err);
+    const reason = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+    console.warn(`[OpenMeteo] Live fetch failed for ${subdivision.name} after 2 attempts (${reason}); using climatology fallback.`);
     return generateFallbackClimatology(subdivision);
   }
 }
